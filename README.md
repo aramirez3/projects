@@ -1,2 +1,3 @@
-# projects
-Source code for angelsprojects.com
+# Angel's Projects
+
+Home for angelsprojects.com

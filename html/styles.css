@@ -1,0 +1,23 @@
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark light;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+  }
+
+  body {
+    background-color: light-dark(#fff, #111);
+    color: light-dark(#111, #fff);
+  }
+  .container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 500px)  {
+    .container {
+        min-width: 400px;
+        width: 90%;
+    }
+}
