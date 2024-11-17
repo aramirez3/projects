@@ -48,11 +48,12 @@ func main() {
 		log.Println("Connected to db")
 
 		e := echo.New()
-		e.File("/", "html/index.html")
-		e.Static("/", "html")
+		e.File("/", "public/index.html")
+		e.Static("/", "public")
 		e.GET("/healthz", handlerHealth)
-		e.POST("/api/users", apiConfig.handlerCreateUser)
 		e.POST("/admin/reset", apiConfig.handlerReset)
+		e.POST("/api/users", apiConfig.handlerCreateUser)
+		e.POST("/api/login", apiConfig.handlerLogin)
 		e.Logger.Fatal(e.Start(apiConfig.Addr))
 	}
 }

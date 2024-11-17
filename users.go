@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -21,16 +20,12 @@ type User struct {
 }
 
 func (cfg *apiConfig) handlerCreateUser(c echo.Context) error {
-	type parameters struct {
+	type payload struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
-
-	var body parameters
-	decoder := json.NewDecoder(c.Request().Body)
-	decoder.DisallowUnknownFields()
-	err := decoder.Decode(&body)
-	if err != nil {
+	body := new(payload)
+	if err := StrictUnmarshal(body, c); err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 	}
