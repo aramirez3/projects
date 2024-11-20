@@ -32,7 +32,7 @@ func (cfg *apiConfig) handlerLogin(c echo.Context) error {
 		fmt.Println(err)
 		return c.String(http.StatusNotFound, "User email was not found")
 	}
-	err = auth.CheckPasswordHash(rebodyqBody.Password, dbUser.HashedPassword)
+	err = auth.CheckPasswordHash(body.Password, "")
 
 	return c.String(http.StatusOK, http.StatusText(http.StatusOK))
 }

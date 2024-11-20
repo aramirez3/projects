@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/aramirez3/projects/internal/database"
@@ -21,10 +22,17 @@ func newAPIConfig() *apiConfig {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8000"
-		log.Fatal("PORT environment variable is not set. Default set to %s", port)
+		port = "3000"
+		log.Fatalf("PORT environment variable is not set. Default set to %s", port)
 	}
 	return &apiConfig{
 		Addr: ":" + port,
+	}
+}
+
+func RequestLoggerMiddleware(next http.Handler) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%v \"%v\"", r.Method, r.URL.Path)
+		next.ServeHTTP(w, r)
 	}
 }
