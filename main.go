@@ -2,18 +2,12 @@ package main
 
 import (
 	"database/sql"
-	"embed"
-	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/aramirez3/projects/internal/database"
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
-
-var staticFiles embed.FS
 
 func main() {
 
@@ -34,27 +28,7 @@ func main() {
 	apiConfig.DB = dbQueries
 	log.Println("Connected to db")
 
-	router := http.NewServeMux()
-	server := http.Server{
-		Addr:    apiConfig.Addr,
-		Handler: RequestLoggerMiddleware(router),
-	}
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		f, err := staticFiles.Open("public/index.html")
-		if err != nil {
-			fmt.Println("could not open public/index.html")
-			log.Println(err)
-			return
-		}
-		defer f.Close()
-		if _, err := io.Copy(w, f); err != nil {
-			log.Fatal(err)
-			return
-		}
-	})
-
-	fmt.Printf("Server started at %s\n", apiConfig.Addr)
-	server.ListenAndServe()
+	apiConfig.StartServer()
 	// e := echo.New()
 	// e.File("/", "public/index.html")
 	// e.Static("/", "public")

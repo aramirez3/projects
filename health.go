@@ -2,10 +2,9 @@ package main
 
 import (
 	"net/http"
-
-	"github.com/labstack/echo/v4"
 )
 
-func handlerHealth(c echo.Context) error {
-	return c.String(http.StatusOK, http.StatusText(http.StatusOK))
+func handlerHealth(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(http.StatusText(http.StatusOK)))
 }
